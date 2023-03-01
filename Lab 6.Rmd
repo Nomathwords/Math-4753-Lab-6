@@ -47,25 +47,85 @@ curve(dnorm(x, mean=5,sd=1/2),xlim=c(0,10))
 
 ## Plot the following regions and probabilities using one graphical interface per plot (use 4 dec. places)  
 
-* $Y ~ N(0, 1), P(Y \geq 2)$  
+* $Y \sim N(0, 1), P(Y \geq 2)$  
 
-* $Y ~ N(\mu = 4, \sigma = 2), P(1 \leq Y \leq 5)$  
+* $Y \sim N(\mu = 4, \sigma = 2), P(1 \leq Y < 5)$  
 
-* $Y ~ N(\mu = 10, \sigma = 4), P(Y < 10)$  
+* $Y \sim N(\mu = 10, \sigma = 4), P(Y < 10)$  
 
-* $Y~N(\mu = -2, \sigma = \frac{1}{2}), P(-3 < Y \leq -2)$
+* $Y \sim N(\mu = -2, \sigma = \frac{1}{2}), P(-3 < Y \leq -2)$
+
+```{r}
+layout(matrix(1:4, nr = 2, nc = 2))
+
+# COMPLETE THIS!!!!
+curve(dnorm(x, 0, 1), xlim = c(10 - 3.5, 10 + 3.5))
+
+curve(dnorm(x, 4, 2), xlim = c(4 - 3.5, 4 + 3.5))
+#P(1 <= y < 5)
+area <- pnorm(5, 4, 2) - pnorm(1, 4, 2)
+area <- round(area, 4)
+xcurve <- seq(1, 5, length = 1000)
+ycurve <- dnorm(xcurve, 4, 2)
+polygon(c(1, xcurve, 5), c(0, ycurve, 0), col = "Red")
+text(7, 0.15, paste0("Area = ", area))
+
+# INSERT PLOT 3
+
+curve(dnorm(x,-2, 0.5), xlim = c(-2 - 3.5, -2 + 3.5))
+#P(-2 <= y < -1)
+area <- pnorm(-1, -2, 0.5) - pnorm(-2, -2, 0.5)
+area <- round(area, 4)
+xcurve <- seq(-2, -1, length = 1000)
+ycurve <- dnorm(xcurve, -2, 0.5)
+polygon(c(-2, xcurve, -1), c(0, ycurve, 0), col = "Blue")
+```
+
+# Task 3  
+
+## On the one plotting surface, overlay the following three plots:  
+
+  * $Y \sim Gamma(shape = 1, scale = 1)$  
+  
+  * $Y \sim Gamma(shape = 3, scale = 1)$  
+  
+  * $Y \sim Gamma(shape = 5, scale = 1)$
+  
+```{r}
+curve(dgamma(x,shape=1,scale=1),xlim=c(0,10),ylim=c(0,1),col="Red",lwd=2,
+ylab="Gamma density", main="Beta=1")
+text(1.1, .7, paste0("alpha = ",1))
+
+curve(dgamma(x,shape=3,scale=1),xlim=c(0,10),ylim=c(0,1),add=TRUE, col = "Green", lwd=2)
+text(2, .35, paste0("alpha = ",2))
+
+curve(dgamma(x,shape=5,scale=1),xlim=c(0,10),ylim=c(0,1),add=TRUE, col="Blue",lwd=2)
+text(4.5, .25, paste0("alpha = ",3))
+```
+
+## Plot the following regions and probabilities in R  
+
+* $Y \sim Gamma(shape = 3, scale = 2), P(2 < Y < 5)$  
+
+```{r}
+curve(dgamma(x,shape=3,scale=2),xlim=c(3,5),ylim=c(0,1),col="Red",lwd=2,
+ylab="Gamma density")
+```
+
+* $Y \sim Gamma(shape = 6, scale = 3), P(1 \leq Y \leq 4)$
 
 
+```{r}
+curve(dgamma(x,shape=6,scale=3),xlim=c(1,5),ylim=c(0,1),col="Red",lwd=2,
+ylab="Gamma density")
+```
 
+$Y \sim Gamma(shape = 2, scale = 4) $
 
-
-
-
-
-
-
-
-
+```{r}
+curve(dgamma(x,shape=2,scale=4),xlim=c(3,6),ylim=c(0,1),col="Red",lwd=2,
+ylab="Gamma density")
+```
 
 
 
