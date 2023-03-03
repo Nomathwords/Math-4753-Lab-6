@@ -35,50 +35,61 @@ getwd()
 
 ```{r}
 layout(matrix(1:4, nr=2,nc=2))
-
-curve(dnorm(x, mean=10,sd=4),xlim=c(-10,30))
-
-curve(dnorm(x, mean=10,sd=2),xlim=c(-10,30))
-
-curve(dnorm(x, mean=5,sd=10),xlim=c(-40,40))
-
-curve(dnorm(x, mean=5,sd=1/2),xlim=c(0,10))
+curve(dnorm(x, mean=10,sd=4),xlim=c(10 - 3 * 4, 10 + 3 * 4))
+curve(dnorm(x, mean=10,sd=2),xlim=c(10 - 3 * 2, 10 + 3 * 2))
+curve(dnorm(x, mean=5,sd=10),xlim=c(5 - 3 * 10, 5 + 3 * 10))
+curve(dnorm(x, mean=5,sd=1/2),xlim=c(5 - 3 * 0.5, 5 + 3 * 0.5))
 ```
 
 ## Plot the following regions and probabilities using one graphical interface per plot (use 4 dec. places)  
 
 * $Y \sim N(0, 1), P(Y \geq 2)$  
 
+```{r}
+curve(dnorm(x, 0, 1), xlim = c(-3, 3))
+xcurve <- seq(2, 5, length = 1000)
+ycurve <- dnorm(xcurve, 0, 1)
+polygon(c(2, xcurve, 5), c(0, ycurve, 0), col = "Green")
+area <- pnorm(5, 0, 1) - pnorm(2, 0, 1)
+area <- round(area, 4)
+text(0, 0.01, paste0("Area = ", area))
+```
+
 * $Y \sim N(\mu = 4, \sigma = 2), P(1 \leq Y < 5)$  
 
-* $Y \sim N(\mu = 10, \sigma = 4), P(Y < 10)$  
+```{r}
+curve(dnorm(x, 4, 2), xlim = c(0, 10))
+xcurve <- seq(1, 5, length = 1000)
+ycurve <- dnorm(xcurve, 4, 2)
+polygon(c(1, xcurve, 5), c(0, ycurve, 0), col = "Red")
+area <- pnorm(5, 4, 2) - pnorm(1, 4, 2)
+area <- round(area, 4)
+text(6.5, 0.01, paste0("Area = ", area))
+```
+
+* $Y \sim N(\mu = 10, \sigma = 4), P(Y < 10)$ 
+
+```{r}
+curve(dnorm(x, mean = 10, sd = 4), xlim = c(-2, 22))
+xcurve <- seq(-5, 10, length = 1000)
+ycurve <- dnorm(xcurve, 10, 4)
+polygon(c(-5, xcurve, 10), c(0, ycurve, 0), col = "Yellow")
+area <- pnorm(10, 10, 4)
+area <- round(area, 4)
+text(14, 0.001, paste0("Area = ", area))
+```
 
 * $Y \sim N(\mu = -2, \sigma = \frac{1}{2}), P(-3 < Y \leq -2)$
 
 ```{r}
-layout(matrix(1:4, nr = 2, nc = 2))
-
-# COMPLETE THIS!!!!
-curve(dnorm(x, 0, 1), xlim = c(10 - 3.5, 10 + 3.5))
-
-curve(dnorm(x, 4, 2), xlim = c(4 - 3.5, 4 + 3.5))
-#P(1 <= y < 5)
-area <- pnorm(5, 4, 2) - pnorm(1, 4, 2)
-area <- round(area, 4)
-xcurve <- seq(1, 5, length = 1000)
-ycurve <- dnorm(xcurve, 4, 2)
-polygon(c(1, xcurve, 5), c(0, ycurve, 0), col = "Red")
-text(7, 0.15, paste0("Area = ", area))
-
-# INSERT PLOT 3
-
-curve(dnorm(x,-2, 0.5), xlim = c(-2 - 3.5, -2 + 3.5))
+curve(dnorm(x,-2, 0.5), xlim = c(-4, 0))
 #P(-2 <= y < -1)
-area <- pnorm(-1, -2, 0.5) - pnorm(-2, -2, 0.5)
-area <- round(area, 4)
-xcurve <- seq(-2, -1, length = 1000)
+xcurve <- seq(-2, -3, length = 1000)
 ycurve <- dnorm(xcurve, -2, 0.5)
-polygon(c(-2, xcurve, -1), c(0, ycurve, 0), col = "Blue")
+polygon(c(-2, xcurve, -3), c(0, ycurve, 0), col = "Blue")
+area <- pnorm(-2, -2, 0.5) - pnorm(-3, -2, 0.5)
+area <- round(area, 4)
+text(-1.5, 0.01, paste0("Area = ", area))
 ```
 
 # Task 3  
@@ -93,14 +104,12 @@ polygon(c(-2, xcurve, -1), c(0, ycurve, 0), col = "Blue")
   
 ```{r}
 curve(dgamma(x,shape=1,scale=1),xlim=c(0,10),ylim=c(0,1),col="Red",lwd=2,
-ylab="Gamma density", main="Beta=1")
+ylab="Gamma density", main="Beta")
 text(1.1, .7, paste0("alpha = ",1))
-
 curve(dgamma(x,shape=3,scale=1),xlim=c(0,10),ylim=c(0,1),add=TRUE, col = "Green", lwd=2)
-text(2, .35, paste0("alpha = ",2))
-
+text(2, .35, paste0("alpha = ",3))
 curve(dgamma(x,shape=5,scale=1),xlim=c(0,10),ylim=c(0,1),add=TRUE, col="Blue",lwd=2)
-text(4.5, .25, paste0("alpha = ",3))
+text(4.5, .25, paste0("alpha = ",5))
 ```
 
 ## Plot the following regions and probabilities in R  
@@ -108,26 +117,213 @@ text(4.5, .25, paste0("alpha = ",3))
 * $Y \sim Gamma(shape = 3, scale = 2), P(2 < Y < 5)$  
 
 ```{r}
-curve(dgamma(x,shape=3,scale=2),xlim=c(3,5),ylim=c(0,1),col="Red",lwd=2,
-ylab="Gamma density")
+curve(dgamma(x, shape = 3, scale = 2), xlim = c(0, 10), ylim = c(0, 0.3), lwd = 2, ylab = "Gamma density", xlab = "Y", main = "Gamma Distribution: Shape = 3, Scale = 2")
+xcurve <- seq(2, 5, length = 1000)
+ycurve <- dgamma(xcurve, shape = 3, scale = 2)
+polygon(c(2, xcurve, 5), c(0, ycurve, 0), col = "Green")
+area <- pgamma(5, shape = 3, scale = 2) - pgamma(2, shape = 3, scale = 2)
+area <- round(area, 4)
+text(6.5, 0.001, paste0("Area = ", area))
 ```
 
 * $Y \sim Gamma(shape = 6, scale = 3), P(1 \leq Y \leq 4)$
 
-
 ```{r}
-curve(dgamma(x,shape=6,scale=3),xlim=c(1,5),ylim=c(0,1),col="Red",lwd=2,
-ylab="Gamma density")
+curve(dgamma(x, shape = 6, scale = 3), xlim = c(0, 30), ylim=c(0, 0.06), lwd = 2, ylab="Gamma density", xlab = "Y", main = "Gamma Distribution: Shape = 6, Scale = 3")
+xcurve <- seq(1, 4, length = 1000)
+ycurve <- dgamma(xcurve, shape = 6, scale = 3)
+polygon(c(1, xcurve, 4), c(0, ycurve, 0), col = "Red")
+area <- pgamma(4, shape = 6, scale = 3) - pgamma(1, shape = 6, scale = 3)
+area <- round(area, 4)
+text(10, 0.001, paste0("Area = ", area))
 ```
 
-$Y \sim Gamma(shape = 2, scale = 4) $
+* $Y \sim Gamma(shape = 2, scale = 4), P(3 \leq Y < 6)$
 
 ```{r}
-curve(dgamma(x,shape=2,scale=4),xlim=c(3,6),ylim=c(0,1),col="Red",lwd=2,
-ylab="Gamma density")
+curve(dgamma(x, shape = 2, scale = 4), xlim = c(0, 30), ylim=c(0, 0.1), lwd = 2, ylab="Gamma density", xlab = "Y", main = "Gamma Distribution: Shape = 2, Scale = 4")
+xcurve <- seq(3, 6, length = 1000)
+ycurve <- dgamma(xcurve, shape = 2, scale = 4)
+polygon(c(3, xcurve, 6), c(0, ycurve, 0), col = "Yellow")
+area <- pgamma(6, shape = 2, scale = 4) - pgamma(3, shape = 2, scale = 4)
+area <- round(area, 4)
+text(10, 0.001, paste0("Area = ", area))
 ```
 
+## Task 4  
 
+### Use layout() and break up the graphical interface so that there are four squares to plot the following on:  
+
+* $Y \sim chisq(df = 1)$  
+
+* $Y \sim chisq(df = 2)$  
+
+* $Y \sim chisq(df = 4)$  
+
+* $Y \sim chisq(df = 20)$  
+
+```{r}
+layout(matrix(1:4, nr = 2, nc = 2))
+
+curve(dchisq(x,df=1),xlim=c(0,6),ylim=c(0,1.4),col="Red",lwd=2,
+ylab="Chisq density", main="Degrees of Fredom: 1")
+
+curve(dchisq(x,df=2),xlim=c(0,10),ylim=c(0,0.6),col="Orange",lwd=2,
+ylab="Chisq density", main="Degrees of Fredom: 2")
+
+curve(dchisq(x,df=4),xlim=c(0,10),ylim=c(0,0.2),col="Yellow",lwd=2,
+ylab="Chisq density", main="Degrees of Fredom: 4")
+
+curve(dchisq(x,df=20),xlim=c(0,50),ylim=c(0,0.07),col="Brown",lwd=2,
+ylab="Chisq density", main="Degrees of Fredom: 20")
+```
+
+### Plot the following regions and probabilities in R on separate plotting surfaces.  
+
+* $Y \sim chisq(df = 2), P(2 \leq Y \leq 4)$
+
+```{r}
+curve(dchisq(x, df = 2), xlim = c(0, 10), ylim = c(0, 0.75), lwd = 2, xlab = "Y", ylab = "Chi-Square Density", main = "Degrees of Freedom: 2")
+xcurve = seq(2, 4, length = 1000)
+ycurve = dchisq(xcurve, df = 2)
+polygon(c(2, xcurve, 4), c(0, ycurve, 0), col = "Red")
+area = round(pchisq(4, df = 2) - pchisq(2, df = 2), 4)
+text(3, 0.25, paste0("Area = ", area))
+```
+
+* $Y \sim chisq(df = 3), P(3 \leq Y \leq 5)$
+
+```{r}
+curve(dchisq(x, df = 3), xlim = c(0, 10), ylim = c(0, 0.3), lwd = 2, xlab = "Y", ylab = "Chi-Square Density", main = "Degrees of Freedom: 3")
+xcurve = seq(3, 5, length = 1000)
+ycurve = dchisq(xcurve, df = 3)
+polygon(c(3, xcurve, 5), c(0, ycurve, 0), col = "Orange")
+area = round(pchisq(5, df = 3) - pchisq(3, df = 3), 4)
+text(3, 0.25, paste0("Area = ", area))
+```
+
+* $Y \sim chisq(df = 20), P(10 < Y \leq 21)$
+
+```{r}
+curve(dchisq(x, df = 20), xlim = c(5, 40), ylim = c(0, 0.1), lwd = 2, xlab = "Y", ylab = "Chi-Square Density", main = "Degrees of Freedom: 20")
+xcurve = seq(10, 21, length = 1000)
+ycurve = dchisq(xcurve, df = 20)
+polygon(c(10, xcurve, 21), c(0, ycurve, 0), col = "Yellow")
+area = round(pchisq(21, df = 20) - pchisq(10, df = 20), 4)
+text(20, 0.08, paste0("Area = ", area))
+```
+
+## Task 5
+
+### Make four plots as above with any shape and scale combinations you wish (Using layout())
+
+```{r}
+layout(matrix(1:4, nr = 2, nc = 2))
+
+curve(dweibull(x, shape = 1, scale = 1), xlim = c(0, 6), ylim = c(0, 1), col = "Violet", lwd = 2, ylab = "Weibull Density", main = "Shape = 1, Scale = 1")
+
+curve(dweibull(x, shape = 2, scale = 3), xlim = c(0, 10), ylim = c(0, 0.3), col = "Navy", lwd = 2, ylab = "Weibull Density", main = "Shape = 2, Scale = 3")
+
+curve(dweibull(x, shape = 9, scale = 7), xlim = c(2, 10), ylim = c(0, 0.5), col = "Purple", lwd = 2, ylab = "Weibull Density", main = "Shape = 9, Scale = 7")
+
+curve(dweibull(x, shape = 5, scale = 5), xlim = c(1, 8), ylim = c(0, 0.4), col = "Pink", lwd = 2, ylab = "Weibull Density", main = "Shape = 5, Scale = 5")
+```
+
+### Calculate any three areas and probabilities you choose and show them on the graphs as above (separate plots).  
+
+I'll choose the first three plots I created above:
+
+$Y \sim weibull(shape = 1, scale = 1), P(0 \leq Y \leq 2)$
+
+```{r}
+curve(dweibull(x, shape = 1, scale = 1), xlim = c(0, 6), ylim = c(0, 1), lwd = 2, ylab = "Weibull Density", main = "Shape = 1, Scale = 1")
+xcurve = seq(0, 2, length = 1000)
+ycurve = dweibull(xcurve, shape = 1, scale = 1)
+polygon(c(0, xcurve, 2), c(0, ycurve, 0), col = "Violet")
+area = pweibull(2, shape = 1, scale = 1) - pweibull(0, shape = 1, scale = 1)
+area = round(area, 4)
+text(1.5, 0.6, paste0("Area = ", area))
+```
+
+$Y \sim weibull(shape = 2, scale = 3), P(0 \leq Y \leq 8)$
+
+```{r}
+curve(dweibull(x, shape = 2, scale = 3), xlim = c(0, 10), ylim = c(0, 0.3), lwd = 2, ylab = "Weibull Density", main = "Shape = 2, Scale = 3")
+xcurve = seq(0, 8, length = 1000)
+ycurve = dweibull(xcurve, shape = 2, scale = 3)
+polygon(c(0, xcurve, 8), c(0, ycurve, 0), col = "Navy")
+area = pweibull(8, shape = 2, scale = 3) - pweibull(0, shape = 2, scale = 3)
+area = round(area, 4)
+text(6, 0.1, paste0("Area = ", area))
+```
+
+$Y \sim weibull(shape = 9, scale = 7), P(2 \leq Y \leq 5)$
+
+```{r}
+curve(dweibull(x, shape = 9, scale = 7), xlim = c(2, 10), ylim = c(0, 0.5), lwd = 2, ylab = "Weibull Density", main = "Shape = 9, Scale = 7")
+xcurve = seq(2, 5, length = 1000)
+ycurve = dweibull(xcurve, shape = 9, scale = 7)
+polygon(c(2, xcurve, 5), c(0, ycurve, 0), col = "Violet")
+area = pweibull(5, shape = 9, scale = 7) - pweibull(2, shape = 9, scale = 7)
+area = round(area, 4)
+text(3, 0.2, paste0("Area = ", area))
+```
+
+## Task 6
+
+### Repeat task 5 for the beta distribution.
+
+```{r}
+layout(matrix(1:4, nr = 2, nc = 2))
+
+curve(dbeta(x, shape1 = 5, shape2 = 2), xlim = c(0, 1), col = "Violet", lwd = 2, ylab = "Beta Density", xlab = "Y", main = "a = 5, b = 2")
+
+curve(dbeta(x, shape1 = 7, shape2 = 9), xlim = c(0, 1), col = "Navy", lwd = 2, ylab = "Beta Density", xlab = "Y", main = "a = 7, b = 9")
+
+curve(dbeta(x, shape1 = 3, shape2 = 6), xlim = c(0, 1), col = "Purple", lwd = 2, ylab = "Beta Density", xlab = "Y", main = "a = 3, b = 6")
+
+curve(dbeta(x, shape1 = 2, shape2 = 1), xlim = c(0, 1), col = "Pink", lwd = 2, ylab = "Beta Density", xlab = "Y", main = "a = 2, b = 1")
+
+
+```
+
+I will again choose the first three plots I created above:
+
+* $Y \sim beta(shape1 = 5, shape2 = 2), P(0.4 \leq Y \leq 0.6)$  
+
+```{r}
+curve(dbeta(x, shape1 = 5, shape2 = 2), xlim = c(0, 1), lwd = 2, ylab = "Beta Density", xlab = "Y", main = "Shape1 = 5, Shape2 = 2")
+xcurve <- seq(0.4, 0.6, length = 1000)
+ycurve <- dbeta(xcurve, shape1 = 5, shape2 = 2)
+polygon(c(0.4, xcurve, 0.6), c(0, ycurve, 0), col = "Violet")
+area <- pbeta(0.6, shape1 = 5, shape2 = 2) - pbeta(0.4, shape1 = 5, shape2 = 2)
+area <- round(area, 4)
+text(0.2, 0.5, paste0("Area = ", area))
+```
+
+* $Y \sim beta(shape1 = 7, shape2 = 9), P(0.6 \leq Y \leq 1.0)$  
+
+```{r}
+curve(dbeta(x, shape1 = 7, shape2 = 9), xlim = c(0, 1), lwd = 2, ylab = "Beta Density", xlab = "Y", main = "Shape1 = 7, Shape2 = 9")
+xcurve <- seq(0.6, 1.0, length = 1000)
+ycurve <- dbeta(xcurve, shape1 = 7, shape2 = 9)
+polygon(c(0.6, xcurve, 1.0), c(0, ycurve, 0), col = "Navy")
+area <- pbeta(1.0, shape1 = 7, shape2 = 9) - pbeta(0.6, shape1 = 7, shape2 = 9)
+area <- round(area, 4)
+text(0.8, 1, paste0("Area = ", area))
+```
+
+* $Y \sim beta(shape1 = 3, shape2 = 6), P(0.2 \leq Y \leq 0.4)$  
+
+```{r}
+curve(dbeta(x, shape1 = 3, shape2 = 6), xlim = c(0, 1), lwd = 2, ylab = "Beta Density", xlab = "Y", main = "Shape1 = 3, Shape2 = 6")
+xcurve <- seq(0.2, 0.4, length = 1000)
+ycurve <- dbeta(xcurve, shape1 = 3, shape2 = 6)
+polygon(c(0.2, xcurve, 0.4), c(0, ycurve, 0), col = "Purple")
+area <- pbeta(0.4, shape1 = 3, shape2 = 6) - pbeta(0.2, shape1 = 3, shape2 = 6)
+area <- round(area, 4)
+text(0.6, 1.5, paste0("Area = ", area))
+```
 
 
 
@@ -137,18 +333,13 @@ ylab="Gamma density")
 
 ```{r}
 # CLEAN UP #################################################
-
 # Clear environment
 rm(list = ls()) 
-
 # Clear packages
 p_unload(all)  # Remove all add-ons
-
 # Clear plots
 dev.off()  # But only if there IS a plot
-
 # Clear console
 cat("\014")  # ctrl+L
-
 # Clear mind :)
 ```
